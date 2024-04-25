@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  java-mysql-container:
+    image: mcr.microsoft.com/java/jdk:17-zulu-alpine
+    container_name: java-mysql-campusfp
+    volumes:
+      - ./mysql-connector-java-8.0.17.jar:/usr/local/lib/mysql-connector-java-8.0.17.jar
+      - c:/programacion:/usr/src/app
+    environment:
+      - ECLIPSE_WORKSPACE=c:/programacion
+    ports:
+      - "8080:8080"
+    command: java -jar /usr/local/lib/mysql-connector-java-8.0.17.jar
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
